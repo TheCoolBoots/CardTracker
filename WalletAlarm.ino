@@ -46,14 +46,18 @@ void setup() {
 
 void loop() {
   buttonState = digitalRead(BUTTON);
+
+  // if the button is pressed, turn off the buzzer
   if(buttonState && !lastButtonState){
-    reset();
+    digitalWrite(BUZZER, LOW);
   }
 
   // checkCard(0);
   checkCard(1);
   // checkCard(2);
 
+
+  // if all cards are in place, turn off buzzer
   if(cardInPlace[0] && cardInPlace[1] && cardInPlace[2]){
     digitalWrite(BUZZER, LOW);
   }
@@ -80,7 +84,12 @@ void checkCard(int index){
     // if card is out, increment timer
     timers[index] ++;
     if(timers[index] > TIME_ALLOWED_AWAY){
+
+      // if the card has been out for more than the alotted time, set the LED to solid color
       LED_states[index] = 2;
+
+      // force the buzzer on only for a threshold of 1% within the time allowed away
+      // this allows user to turn off buzzer while still keeping LED indicator on
       if(timers[index] < TIME_ALLOWED_AWAY + .01 * TIME_ALLOWED_AWAY)
         digitalWrite(BUZZER, HIGH);
     }
@@ -114,9 +123,4 @@ void blinkLEDfunc(int index){
     blinkLED[index] = 0;
   }
   blinkLED[index] += 1;
-}
-
-
-void reset(){
-    digitalWrite(BUZZER, LOW);
 }
