@@ -19,7 +19,7 @@ int buttonState;             // the current reading from the input pin
 int lastButtonState = LOW;   // the previous reading from the input pin
 
 long timers[] = {0,0,0};
-bool cardInPlace[] = {false, false, false};
+bool cardInPlace[] = {true, true, true};
 bool cardInPlaceLastState[] = {true, true, true};
 int LED_states[] = {0,0,0};
 
@@ -52,10 +52,14 @@ void loop() {
     digitalWrite(BUZZER, LOW);
   }
 
-  // checkCard(0);
+  checkCard(0);
   checkCard(1);
-  // checkCard(2);
-
+  checkCard(2);
+  // Serial.println(timers[2]);
+  //Serial.print(cardInPlace[0]);
+  //Serial.print(cardInPlace[1]);
+  //Serial.println(cardInPlace[2]);
+  
 
   // if all cards are in place, turn off buzzer
   if(cardInPlace[0] && cardInPlace[1] && cardInPlace[2]){
